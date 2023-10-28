@@ -103,3 +103,7 @@ color:white;
 	border-color:rgb(76, 128, 212);
 	background-color: rgb(132, 132, 244);
   }
+  .hidden {
+	display: none;
+  }
+  

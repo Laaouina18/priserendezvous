@@ -1,18 +1,32 @@
 import React, { useEffect, useState } from 'react';
-import FetchApi from '../api/fetchApi';
+import  FetchData from '../api/fetchApi';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BeakerIcon } from '@heroicons/react/24/solid'
 import AddAppointment from '../component/AddAppointment';
-import Recherche from '../component/Search'; 
+import FilterBar from '../component/Search'; 
 import "../css/home.css"
 function Home() {
   const [Data, setData] = useState([]);
   const [rechercheTerm, setRechercheTerm] = useState('');
+  const [apiData, setApiData] = useState([]);
+   const [datare,setDatare]=useState([]);
+  const filtrerData = (term) => {
+	  setRechercheTerm(term);
+	  console.log( term); 
+	 
+  };
   const [triPar, setTriPar] = useState('aptDate');
 
-  const filtrerData = (term) => {
-    setRechercheTerm(term);
-  };
+
+  const dataF = Data.filter((item) => {
+    return (
+      item.petName.toLowerCase().includes(rechercheTerm) ||
+      item.ownerName.toLowerCase().includes(rechercheTerm) ||
+      item.aptNotes.toLowerCase().includes(rechercheTerm) ||
+      item.aptDate.includes(rechercheTerm)
+    );
+  });
+
 
   const trierData = (critere) => {
     setTriPar(critere);
@@ -21,11 +35,51 @@ function Home() {
   const ajouter = (rendezvous) => {
     setData([...Data, rendezvous]);
   };
+  const [fetchedData, setFetchedData] = useState([]); 
 
-  const dataFiltree = Data.filter((item) =>
-    item.petName.toLowerCase().includes(rechercheTerm.toLowerCase())
-  ).sort((a, b) => (a[triPar] > b[triPar] ? 1 : -1));
+  const handleDataFetched = (data) => {
+    console.log(data);
+    setApiData(data); 
+  };
+  const dataFiltree = Data.filter((item) => {
 
+	const searchTerm = rechercheTerm ? rechercheTerm.toLowerCase() : '';
+	const petName = item.petName ? item.petName.toLowerCase() : '';
+	const ownerName = item.ownerName ? item.ownerName.toLowerCase() : '';
+	return petName.includes(searchTerm) || ownerName.includes(searchTerm);
+  });
+  
+  const mergedData = [...dataFiltree, ...apiData];
+  const rechercherDansMergedData = (term) => {
+	if (term.trim() === '') {
+	  console.log('Aucun terme de recherche. Affichage de toutes les données :', mergedData);
+	} else {
+	  const resultatsRecherche = mergedData.filter(({ petName, ownerName }) => {
+		return (
+		  petName.toLowerCase().includes(term.toLowerCase()) ||
+		  ownerName.toLowerCase().includes(term.toLowerCase())
+		);
+	  });
+  
+	  const elements = document.querySelectorAll('.data-row');
+	  elements.forEach((element) => {
+		const id = element.getAttribute('id');
+		if (!resultatsRecherche.some(({ id }) => id === id)) {
+		  element.classList.add('hidden');
+		} else {
+		  element.classList.remove('hidden');
+		}
+	  });
+	
+  
+	  console.log(resultatsRecherche);
+	}
+  };
+  
+
+  useEffect(() => {
+    rechercherDansMergedData(rechercheTerm);
+  }, [rechercheTerm, mergedData]);
   return (
     <div className="container mt-5">
 	<div className="d-flex"><svg  className="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" >
@@ -33,27 +87,26 @@ function Home() {
 </svg>
 <h1>Your Appointment</h1></div>
       <AddAppointment onSave={ajouter} />
-      <Recherche onRecherche={filtrerData} onTrier={trierData} />
-
-	  {dataFiltree.map((item,index) => (
-        <div className="data-row" key={item}>
+	  <FilterBar onSearch={filtrerData} onTrier={trierData} />
+	  <FetchData onDataFetched={handleDataFetched} />
+  {mergedData.map(({ id, petName, ownerName, aptNotes, aptDate }) => (
+	<div className="data-row" key={id}>
           <div className="left">
            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="delete-icon">
   <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
 </svg>
-        <div className="info">
-            <span className="pet-name">{item.petName}</span>
-			<div>Owner: {item.OwnerName}</div>
-            <div>Apt Notes: {item.aptNotes}</div>
+          <div className="info">
+            <span className="pet-name">{petName}</span>
+			<div>Owner: {ownerName}</div>
+            <div>Apt Notes: {aptNotes}</div>
 			</div>
           </div>
           <div className="right">
-           
-            <div>Date: {item.aptDate}</div>
+            <div>Date: {aptDate}</div>
           </div>
         </div>
       ))}
-      <FetchApi />
+	  
     </div>
   );
 }
