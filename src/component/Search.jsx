@@ -1,28 +1,38 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
+import "../css/home.css"
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-const Recherche = ({ onRecherche, onTrier }) => {
-  const [termeRecherche, setTermeRecherche] = useState('');
-  const [trierPar, setTriePar] = useState('');
+const FilterBar = ({ onSearch, onSort, trierPar, setTrierPar }) => {
+    const [termeRecherche, setTermeRecherche] = useState('');
 
-  const EffectuerRecherche = () => {
-    onRecherche(termeRecherche);
-  };
+    const handleInputChange = (e) => {
+        setTermeRecherche(e.target.value);
+        onSearch(e.target.value);
+    };
 
-  const EffectuerTri = () => {
-    onTrier(trierPar);
-  };
+    const handleSelectChange = (e) => {
+        setTrierPar(e.target.value);
+        onSort(e.target.value);
+    };
 
-  return (
-    <div>
-      <input type="text" value={termeRecherche} onChange={(e) => setTermeRecherche(e.target.value)} />
-      <button onClick={EffectuerRecherche}>Rechercher</button>
-
-      <select value={trierPar} onChange={(e) => setTriePar(e.target.value)}>
-        <option value="aptDate">Date</option>
-      </select>
-      <button onClick={EffectuerTri}>Trier</button>
-    </div>
-  );
+    return (
+        <div className="d-flex ml-2">
+            <input
+                type="text"
+                className="form-control mr-2"
+                value={termeRecherche}
+                onChange={handleInputChange}
+                placeholder="Rechercher..."
+            />
+            <select
+                className="btn "
+                value={trierPar}
+                onChange={handleSelectChange}
+            >
+                <option value="aptDate">Date</option>
+            </select>
+        </div>
+    );
 };
 
-export default Recherche;
+export default FilterBar;

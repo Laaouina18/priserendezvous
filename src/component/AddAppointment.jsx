@@ -1,47 +1,113 @@
 import React, { useState } from 'react';
-
+import "../css/home.css"
+import 'bootstrap/dist/css/bootstrap.min.css';
 const AddAppointment = ({ onSave }) => {
-    const [formData, setFormData] = useState({
-        OwnerName: '',
-        petName: '',
-        aptDate: '',
-        aptTime: '',
-        aptNotes: '',
-    });
+	const [formData, setFormData] = useState({
+		OwnerName: '',
+		petName: '',
+		aptDate: '',
+		aptTime: '',
+		aptNotes: '',
+	});
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+	const handleSubmit = (e) => {
+		e.preventDefault();
 
-        // Appeler la fonction onSave pour passer les données au composant Home
-        onSave(formData);
 
-        // Réinitialisation du formulaire
-        setFormData({
-            OwnerName: '',
-            petName: '',
-            aptDate: '',
-            aptTime: '',
-            aptNotes: '',
-        });
-    };
+		onSave(formData);
 
-    return (
-        <div>
-            <form onSubmit={handleSubmit}>
-        <label>Pet Name</label>
-        <input type="text" value={formData.petName} onChange={(e) => setFormData({ ...formData, petName: e.target.value })} />
-        <label>Owner Name</label>
-        <input type="text" value={formData.OwnerName} onChange={(e) => setFormData({ ...formData, OwnerName: e.target.value })} />
-        <label>Appointment Date</label>
-        <input type="date" value={formData.aptDate} onChange={(e) => setFormData({ ...formData, aptDate: e.target.value })} />
-        <label>Appointment Time</label>
-        <input type="time" value={formData.aptTime} onChange={(e) => setFormData({ ...formData, aptTime: e.target.value })} />
-        <label>Appointment Notes</label>
-        <textarea value={formData.aptNotes} onChange={(e) => setFormData({ ...formData, aptNotes: e.target.value })}></textarea>
-        <button type="submit"> Submit </button>
-      </form>
-    </div>
-  );
+
+		setFormData({
+			OwnerName: '',
+			petName: '',
+			aptDate: '',
+			aptTime: '',
+			aptNotes: '',
+		});
+	};
+
+	return (
+		<div className="rendezvous">
+		<div className="add">
+		<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="icon-save">
+  <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 3.75V16.5L12 14.25 7.5 16.5V3.75m9 0H18A2.25 2.25 0 0120.25 6v12A2.25 2.25 0 0118 20.25H6A2.25 2.25 0 013.75 18V6A2.25 2.25 0 016 3.75h1.5m9 0h-9" />
+</svg>
+
+		<h3>Add Appointment</h3>
+		</div>
+              
+	            <form className="form-horizontal" onSubmit={handleSubmit}>
+			
+                <div className="form-group row">
+                    <label className="control-label col-sm-2" htmlFor="petName">Pet Name:</label>
+                    <div className="col-sm-10">
+                        <input
+                            type="text"
+                            className="form-control"
+                            id="petName"
+                            placeholder="Enter pet name"
+                            value={formData.petName}
+                            onChange={(e) => setFormData({ ...formData, petName: e.target.value })}
+                        />
+                    </div>
+                </div>
+                <div className="form-group row">
+                    <label className="control-label col-sm-2" htmlFor="OwnerName">Owner Name:</label>
+                    <div className="col-sm-10">
+                        <input
+                            type="text"
+                            className="form-control"
+                            id="OwnerName"
+                            placeholder="Enter owner name"
+                            value={formData.OwnerName}
+                            onChange={(e) => setFormData({ ...formData, OwnerName: e.target.value })}
+                        />
+                    </div>
+                </div>
+                <div className="form-group row">
+                    <label className="control-label col-sm-2" htmlFor="aptDate">Appointment Date:</label>
+                    <div className="col-sm-10">
+                        <input
+                            type="date"
+                            className="form-control"
+                            id="aptDate"
+                            value={formData.aptDate}
+                            onChange={(e) => setFormData({ ...formData, aptDate: e.target.value })}
+                        />
+                    </div>
+                </div>
+                <div className="form-group row">
+                    <label className="control-label col-sm-2" htmlFor="aptTime">Appointment Time:</label>
+                    <div className="col-sm-10">
+                        <input
+                            type="time"
+                            className="form-control"
+                            id="aptTime"
+                            value={formData.aptTime}
+                            onChange={(e) => setFormData({ ...formData, aptTime: e.target.value })}
+                        />
+                    </div>
+                </div>
+                <div className="form-group row">
+                    <label className="control-label col-sm-2" htmlFor="aptNotes">Notes:</label>
+                    <div className="col-sm-10">
+                        <textarea
+                            className="form-control"
+                            id="aptNotes"
+                            placeholder="Enter notes"
+                            value={formData.aptNotes}
+                            onChange={(e) => setFormData({ ...formData, aptNotes: e.target.value })}
+                        />
+                    </div>
+                </div>
+                <div className="form-group row">
+                    <div className=" submit">
+                        <button type="submit" className="btn btn-default">Submit</button>
+                    </div>
+                </div>
+            </form>
+		</div>
+	);
 };
 
 export default AddAppointment;

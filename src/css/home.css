@@ -1,0 +1,105 @@
+.icon{
+	width:40px;
+	color:orange;
+}
+.case{
+	display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.form-control{
+ margin-bottom: 2px;
+}
+.submit{
+	display: flex;
+	justify-content: end;
+}
+.btn-default{
+	text-align: right;
+}
+.form{
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--bs-body-color);
+    appearance: none;
+    background-color: var(--bs-body-bg);
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius);
+}
+.hidden-select {
+    display: none;
+}
+.btn-dropdown {
+    position: relative;
+    display: inline-block;
+}
+.btn-dropdown select {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    display: block;
+}
+.delete-icon{
+	width:20px;
+	color:red;
+}
+.data-container {
+	display: flex;
+	flex-direction: column;
+  }
+  .data-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 10px;
+	border-bottom: 1px solid #ccc; 
+  }
+  .left {
+	display: flex;
+	align-items: center;
+  }
+  
+  .delete-icon {
+	margin-right: 10px;
+	color: red; 
+  }
+  .pet-name {
+	color: blue; 
+  }
+  .right {
+	text-align: left;
+  }
+  .info{
+
+	display: flex;
+	flex-direction: column;
+  }
+  .icon-save{
+	width:25px;
+color:white;
+  }
+  .form-horizontal{
+	border: 1px solid;
+    border-color: #ccc;
+    padding: 20px;
+    border-radius: 0 0 2px 2px;
+	margin-bottom: 22px;
+  }
+  .btn{
+	background-color:rgb(132, 132, 244);
+  }
+  h3{
+	color:white;
+  }
+  .add{
+	display: flex;
+	flex-direction: row;
+	border: 1px solid;
+	padding: 2px;
+	border-radius: 2px  2px 0 0 ;
+	border-color:rgb(76, 128, 212);
+	background-color: rgb(132, 132, 244);
+  }
