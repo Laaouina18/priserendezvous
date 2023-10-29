@@ -106,4 +106,7 @@ color:white;
   .hidden {
 	display: none;
   }
-  
+.supprimer{
+	border: none;
+	background: transparent;
+}  

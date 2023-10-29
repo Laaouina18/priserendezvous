@@ -12,6 +12,7 @@ const FetchData = ({ onDataFetched }) => {
           setData(jsonData);
           onDataFetched(jsonData); 
           setHasFetchedData(true); 
+		})
         .catch((error) => {
           console.error("Error fetching data:", error);
         });
