@@ -3,7 +3,7 @@ import "../css/home.css"
 import 'bootstrap/dist/css/bootstrap.min.css';
 const AddAppointment = ({ onSave }) => {
 	const [formData, setFormData] = useState({
-		OwnerName: '',
+		ownerName: '',
 		petName: '',
 		aptDate: '',
 		aptTime: '',
@@ -18,7 +18,7 @@ const AddAppointment = ({ onSave }) => {
 
 
 		setFormData({
-			OwnerName: '',
+			ownerName: '',
 			petName: '',
 			aptDate: '',
 			aptTime: '',
@@ -52,15 +52,15 @@ const AddAppointment = ({ onSave }) => {
                     </div>
                 </div>
                 <div className="form-group row">
-                    <label className="control-label col-sm-2" htmlFor="OwnerName">Owner Name:</label>
+                    <label className="control-label col-sm-2" htmlFor="ownerName">Owner Name:</label>
                     <div className="col-sm-10">
                         <input
                             type="text"
                             className="form-control"
-                            id="OwnerName"
+                            id="ownerName"
                             placeholder="Enter owner name"
-                            value={formData.OwnerName}
-                            onChange={(e) => setFormData({ ...formData, OwnerName: e.target.value })}
+                            value={formData.ownerName}
+                            onChange={(e) => setFormData({ ...formData, ownerName: e.target.value })}
                         />
                     </div>
                 </div>

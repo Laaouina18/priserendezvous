@@ -98,7 +98,7 @@ function Home() {
 			</svg>
 				<h1>Your Appointment</h1></div>
 			<AddAppointment onSave={ajouter} />
-			<FilterBar onSearch={filtrerData} onSort={trierData} />
+			<FilterBar onRecherche={filtrerData} onTri={trierData} />
 			<FetchData onDataFetched={handleDataFetched} />
 			{afficherData.map(({ id, petName, ownerName, aptNotes, aptDate }) => (
 				<div className="data-row" key={id}>

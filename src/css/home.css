@@ -109,4 +109,20 @@ color:white;
 .supprimer{
 	border: none;
 	background: transparent;
-}  
+}
+.tri {
+	display: flex;
+	flex-direction: column;
+	position: absolute;
+	top: 91%; 
+	width:155px;
+	right: 50px;
+	background-color: #fff;
+	border: 1px solid #ccc;
+	padding: 10px;
+	z-index: 1000; 
+	border-radius: 2px;
+  }
+  
+ 
+  
