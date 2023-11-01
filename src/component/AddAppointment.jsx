@@ -2,6 +2,30 @@ import React, { useState } from 'react';
 import "../css/home.css"
 import 'bootstrap/dist/css/bootstrap.min.css';
 const AddAppointment = ({ onSave }) => {
+    const validateForm = () => {
+        let isValid = true;
+
+        if (formData.petName.trim() === '') {
+            isValid = false;
+        }
+
+        if (formData.ownerName.trim() === '') {
+            isValid = false;
+        }
+
+        if (formData.aptDate === '') {
+            isValid = false;
+        }
+
+        if (formData.aptTime === '') {
+            isValid = false;
+        }
+
+        if (formData.aptNotes.trim() === '') {
+            isValid = false;
+        }
+        return isValid;
+    };
 	const [formData, setFormData] = useState({
 		ownerName: '',
 		petName: '',
@@ -11,20 +35,21 @@ const AddAppointment = ({ onSave }) => {
 	});
 
 	const handleSubmit = (e) => {
-		e.preventDefault();
-
-
-		onSave(formData);
-
-
-		setFormData({
-			ownerName: '',
-			petName: '',
-			aptDate: '',
-			aptTime: '',
-			aptNotes: '',
-		});
-	};
+        e.preventDefault();
+        if (validateForm()) {
+            onSave(formData);
+            setFormData({
+                ownerName: '',
+                petName: '',
+                aptDate: '',
+                aptTime: '',
+                aptNotes: '',
+            });
+         
+        }else{
+			alert("vailler remplir tout les champs");
+		}
+    };
 
 	return (
 		<div className="rendezvous">
@@ -34,8 +59,7 @@ const AddAppointment = ({ onSave }) => {
 </svg>
 
 		<h3>Add Appointment</h3>
-		</div>
-              
+		</div> 
 	            <form className="form-horizontal" onSubmit={handleSubmit}>
 			
                 <div className="form-group row">
@@ -48,7 +72,7 @@ const AddAppointment = ({ onSave }) => {
                             placeholder="Enter pet name"
                             value={formData.petName}
                             onChange={(e) => setFormData({ ...formData, petName: e.target.value })}
-                        />
+                       required />
                     </div>
                 </div>
                 <div className="form-group row">
@@ -61,7 +85,7 @@ const AddAppointment = ({ onSave }) => {
                             placeholder="Enter owner name"
                             value={formData.ownerName}
                             onChange={(e) => setFormData({ ...formData, ownerName: e.target.value })}
-                        />
+							required/>
                     </div>
                 </div>
                 <div className="form-group row">
@@ -73,7 +97,7 @@ const AddAppointment = ({ onSave }) => {
                             id="aptDate"
                             value={formData.aptDate}
                             onChange={(e) => setFormData({ ...formData, aptDate: e.target.value })}
-                        />
+							required/>
                     </div>
                 </div>
                 <div className="form-group row">
@@ -85,7 +109,7 @@ const AddAppointment = ({ onSave }) => {
                             id="aptTime"
                             value={formData.aptTime}
                             onChange={(e) => setFormData({ ...formData, aptTime: e.target.value })}
-                        />
+							required/>
                     </div>
                 </div>
                 <div className="form-group row">
@@ -97,7 +121,7 @@ const AddAppointment = ({ onSave }) => {
                             placeholder="Enter notes"
                             value={formData.aptNotes}
                             onChange={(e) => setFormData({ ...formData, aptNotes: e.target.value })}
-                        />
+							required/>
                     </div>
                 </div>
                 <div className="form-group row">
