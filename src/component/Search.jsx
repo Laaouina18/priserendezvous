@@ -1,29 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useState } from 'react';
-const FilterBar = ({ onRecherche, onTri, onTriDirection, triAscendant }) => {
-  const [termeRecherche, setTermeRecherche] = useState('');
-  const [triOption, setTriOption] = useState(null);
-  const [triDirection, setTriDirection] = useState('asc');
+
+const FilterBar = ({ onRecherche, onTri }) => {
   const [isTriVisible, setIsTriVisible] = useState(false);
+  const [termeRecherche, setTermeRecherche] = useState('');
+  const [tri, setTri] = useState({
+    option: '',
+    direction: 'asc'
+  });
+
   const toggleTriOptions = () => {
-    setIsTriVisible(!isTriVisible); 
+    setIsTriVisible(!isTriVisible);
   };
+
   const valeurRecherche = (e) => {
     const searchTerm = e.target.value;
     setTermeRecherche(searchTerm);
     onRecherche(searchTerm);
   };
 
-  const changerTri = (option) => {
-    let direction = 'asc';
-    if (triOption === option) {
-      // Si l'utilisateur clique sur l'option déjà sélectionnée, changer la direction du tri
-      direction = triDirection === 'asc' ? 'desc' : 'asc';
-    }
-    setTriDirection(direction);
-    setTriOption(option);
-    onTri(option, direction);
+  const ChangerOpt = (option) => {
+    setTri((prevState) => ({
+      ...prevState,
+      option: option,
+    }));
+  };
+
+  const appliquerTri = () => {
+    onTri(tri);
+	setIsTriVisible(false)
   };
 
   return (
@@ -35,77 +40,78 @@ const FilterBar = ({ onRecherche, onTri, onTriDirection, triAscendant }) => {
         onChange={valeurRecherche}
         placeholder="Rechercher..."
       />
-	  <button className="btn btn-primary" onClick={toggleTriOptions}>Trier</button>
-	  {isTriVisible ?(
-	  <div className="tri">
-	  <div className="form-check form-check-inline">
-      
-        <label className="form-check-label" htmlFor="triNom">
-          pet Name
-        </label>
-		<input
-          className="form-check-input"
-          type="checkbox"
-          id="triNom"
-          onChange={() => changerTri('petName')}
-          checked={triOption === 'petName'}
-        />
-      </div>
-      <div className="form-check form-check-inline">
-        
-        <label className="form-check-label" htmlFor="triOwner">
-          Owner Name
-        </label>
-		<input
-          className="form-check-input"
-          type="checkbox"
-          id="triOwner"
-          onChange={() => changerTri('ownerName')}
-          checked={triOption === 'ownerName'}
-        />
-      </div>
-      <div className="form-check form-check-inline">
-     
-        <label className="form-check-label" htmlFor="triDate">
-          Date
-        </label>
-		<input
-          className="form-check-input"
-          type="checkbox"
-          id="triDate"
-          onChange={() => changerTri('aptDate')}
-          checked={triOption === 'aptDate'}
-        />
-      </div>
-      <div className="form-check form-check-inline">
-        <input
-          className="form-check-input"
-          type="checkbox"
-          id="triAscendant"
-          onChange={() => setTriDirection('asc')}
-          checked={triDirection === 'asc'}
-          disabled={!triOption}
-        />
-        <label className="form-check-label" htmlFor="triAscendant">
-          Asc
-        </label>
-      </div>
-      <div className="form-check form-check-inline">
-        <input
-          className="form-check-input"
-          type="checkbox"
-          id="triDescendant"
-          onChange={() => setTriDirection('desc')}
-          checked={triDirection === 'desc'}
-          disabled={!triOption}
-        />
-        <label className="form-check-label" htmlFor="triDescendant">
-          Desc
-        </label>
-      </div>
-	  </div>
-	  ):null}
-      
+      <button className="btn btn-primary" onClick={toggleTriOptions}>
+        Trier
+      </button>
+      {isTriVisible ? (
+        <div className="tri">
+          <div className="form-check form-check-inline">
+            <label className="form-check-label" htmlFor="triNom">
+              Pet Name
+            </label>
+            <input
+              className="form-check-input"
+              type="checkbox"
+              id="triNom"
+              onChange={() => ChangerOpt('petName')}
+              checked={tri.option === 'petName'}
+            />
+          </div>
+          <div className="form-check form-check-inline">
+            <label className="form-check-label" htmlFor="triOwner">
+              Owner Name
+            </label>
+            <input
+              className="form-check-input"
+              type="checkbox"
+              id="triOwner"
+              onChange={() => ChangerOpt('ownerName')}
+              checked={tri.option === 'ownerName'}
+            />
+          </div>
+          <div className="form-check form-check-inline">
+            <label className="form-check-label" htmlFor="triDate">
+              Date
+            </label>
+            <input
+              className="form-check-input"
+              type="checkbox"
+              id="triDate"
+              onChange={() => ChangerOpt('aptDate')}
+              checked={tri.option === 'aptDate'}
+            />
+          </div>
+          <div className="form-check form-check-inline">
+            <input
+              className="form-check-input"
+              type="radio"
+              id="triAscendant"
+              onChange={() => setTri((prevState) => ({ ...prevState, direction: 'asc' }))}
+              checked={tri.direction === 'asc'}
+              disabled={!tri.option}
+            />
+            <label className="form-check-label" htmlFor="triAscendant">
+              Ascendant
+            </label>
+          </div>
+          <div className="form-check form-check-inline">
+            <input
+              className="form-check-input"
+              type="radio"
+              id="triDescendant"
+              onChange={() => setTri((prevState) => ({ ...prevState, direction: 'desc' }))}
+              checked={tri.direction === 'desc'}
+              disabled={!tri.option}
+            />
+            <label className="form-check-label" htmlFor="triDescendant">
+              Descendant
+            </label>
+          </div>
+          <button className="btn btn-primary" onClick={appliquerTri}>
+            Trier
+          </button>
+        </div>
+      ) : null}
     </div>
   );
 };
